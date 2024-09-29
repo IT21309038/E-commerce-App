@@ -43,7 +43,12 @@ namespace Ecommerce.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> Create(User user)
         {
-            _context.Users.InsertOne(user);
+            var existingUser = await _context.Users.Find<User>(u => u.Email == user.Email).FirstOrDefaultAsync();
+            if (existingUser != null) {
+                return BadRequest("User already exists");
+            }
+
+            await _context.Users.InsertOneAsync(user);
             return CreatedAtRoute("GetUser", new { id = user.Id.ToString() }, user);
         }
 
