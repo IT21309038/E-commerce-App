@@ -1,0 +1,71 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\SLIIT YEAR 4\\Semester 1\\EAD\\Assignment\\E-commerce-App\\Ecommerce\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|d:\\sliit year 4\\semester 1\\ead\\assignment\\e-commerce-app\\ecommerce\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|solutionrelative:models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|d:\\sliit year 4\\semester 1\\ead\\assignment\\e-commerce-app\\ecommerce\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|solutionrelative:controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|d:\\sliit year 4\\semester 1\\ead\\assignment\\e-commerce-app\\ecommerce\\dto\\loginrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|solutionrelative:dto\\loginrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "LoginRequest.cs",
+              "DocumentMoniker": "D:\\SLIIT YEAR 4\\Semester 1\\EAD\\Assignment\\E-commerce-App\\Ecommerce\\DTO\\LoginRequest.cs",
+              "RelativeDocumentMoniker": "DTO\\LoginRequest.cs",
+              "ToolTip": "D:\\SLIIT YEAR 4\\Semester 1\\EAD\\Assignment\\E-commerce-App\\Ecommerce\\DTO\\LoginRequest.cs",
+              "RelativeToolTip": "DTO\\LoginRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-29T07:19:08.545Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UserController.cs",
+              "DocumentMoniker": "D:\\SLIIT YEAR 4\\Semester 1\\EAD\\Assignment\\E-commerce-App\\Ecommerce\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "Controllers\\UserController.cs",
+              "ToolTip": "D:\\SLIIT YEAR 4\\Semester 1\\EAD\\Assignment\\E-commerce-App\\Ecommerce\\Controllers\\UserController.cs",
+              "RelativeToolTip": "Controllers\\UserController.cs",
+              "ViewState": "AgIAADkAAAAAAAAAAAAowFoAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-29T07:02:42.661Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "User.cs",
+              "DocumentMoniker": "D:\\SLIIT YEAR 4\\Semester 1\\EAD\\Assignment\\E-commerce-App\\Ecommerce\\Models\\User.cs",
+              "RelativeDocumentMoniker": "Models\\User.cs",
+              "ToolTip": "D:\\SLIIT YEAR 4\\Semester 1\\EAD\\Assignment\\E-commerce-App\\Ecommerce\\Models\\User.cs*",
+              "RelativeToolTip": "Models\\User.cs*",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAAwBUAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-29T06:51:19.825Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
