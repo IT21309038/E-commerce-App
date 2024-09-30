@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Ecommerce.DTO;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Ecommerce.Controllers
 {
@@ -91,7 +92,14 @@ namespace Ecommerce.Controllers
                 return NotFound();
             }
 
-            return user;
+            var loginResponse = new LoginResponse
+            {
+                Id = user.Id.ToString(),
+                Email = user.Email,
+                Role = user.Role,
+            };
+
+            return Ok(loginResponse);
         }
     }
 }
