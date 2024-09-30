@@ -14,7 +14,9 @@
       "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "swagger",
-      "applicationUrl": "http://localhost:5175",
+      "applicationUrl": "http://0.0.0.0:5175", // Listen on all interfaces
+      // Or, alternatively, to restrict it to your specific IP
+      // "applicationUrl": "http://192.168.220.218:5175",  // Listen on specific IP
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

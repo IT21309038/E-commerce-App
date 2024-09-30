@@ -1,21 +1,13 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\SLIIT YEAR 4\\Semester 1\\EAD\\Assignment\\E-commerce-App\\Ecommerce\\",
+  "WorkspaceRootPath": "C:\\Users\\KIU\\Desktop\\projects\\E-commerce-App\\Ecommerce\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|d:\\sliit year 4\\semester 1\\ead\\assignment\\e-commerce-app\\ecommerce\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|d:\\sliit year 4\\semester 1\\ead\\assignment\\e-commerce-app\\ecommerce\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|c:\\users\\kiu\\desktop\\projects\\e-commerce-app\\ecommerce\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|solutionrelative:controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|d:\\sliit year 4\\semester 1\\ead\\assignment\\e-commerce-app\\ecommerce\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|solutionrelative:models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|d:\\sliit year 4\\semester 1\\ead\\assignment\\e-commerce-app\\ecommerce\\dto\\loginrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|c:\\users\\kiu\\desktop\\projects\\e-commerce-app\\ecommerce\\dto\\loginrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|solutionrelative:dto\\loginrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -31,52 +23,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\SLIIT YEAR 4\\Semester 1\\EAD\\Assignment\\E-commerce-App\\Ecommerce\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "D:\\SLIIT YEAR 4\\Semester 1\\EAD\\Assignment\\E-commerce-App\\Ecommerce\\Program.cs*",
-              "RelativeToolTip": "Program.cs*",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABkAAAAHAAAAAAAAAA==",
+              "Title": "UserController.cs",
+              "DocumentMoniker": "C:\\Users\\KIU\\Desktop\\projects\\E-commerce-App\\Ecommerce\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "Controllers\\UserController.cs",
+              "ToolTip": "C:\\Users\\KIU\\Desktop\\projects\\E-commerce-App\\Ecommerce\\Controllers\\UserController.cs",
+              "RelativeToolTip": "Controllers\\UserController.cs",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-29T16:32:29.272Z",
+              "WhenOpened": "2024-09-30T05:02:50.179Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "LoginRequest.cs",
-              "DocumentMoniker": "D:\\SLIIT YEAR 4\\Semester 1\\EAD\\Assignment\\E-commerce-App\\Ecommerce\\DTO\\LoginRequest.cs",
-              "RelativeDocumentMoniker": "DTO\\LoginRequest.cs",
-              "ToolTip": "D:\\SLIIT YEAR 4\\Semester 1\\EAD\\Assignment\\E-commerce-App\\Ecommerce\\DTO\\LoginRequest.cs",
-              "RelativeToolTip": "DTO\\LoginRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAsAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-29T07:19:08.545Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "UserController.cs",
-              "DocumentMoniker": "D:\\SLIIT YEAR 4\\Semester 1\\EAD\\Assignment\\E-commerce-App\\Ecommerce\\Controllers\\UserController.cs",
-              "RelativeDocumentMoniker": "Controllers\\UserController.cs",
-              "ToolTip": "D:\\SLIIT YEAR 4\\Semester 1\\EAD\\Assignment\\E-commerce-App\\Ecommerce\\Controllers\\UserController.cs",
-              "RelativeToolTip": "Controllers\\UserController.cs",
-              "ViewState": "AgIAAD8AAAAAAAAAAAAowEsAAAAgAAAAAAAAAA==",
+              "Title": "LoginRequest.cs",
+              "DocumentMoniker": "C:\\Users\\KIU\\Desktop\\projects\\E-commerce-App\\Ecommerce\\DTO\\LoginRequest.cs",
+              "RelativeDocumentMoniker": "DTO\\LoginRequest.cs",
+              "ToolTip": "C:\\Users\\KIU\\Desktop\\projects\\E-commerce-App\\Ecommerce\\DTO\\LoginRequest.cs",
+              "RelativeToolTip": "DTO\\LoginRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-29T07:02:42.661Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "User.cs",
-              "DocumentMoniker": "D:\\SLIIT YEAR 4\\Semester 1\\EAD\\Assignment\\E-commerce-App\\Ecommerce\\Models\\User.cs",
-              "RelativeDocumentMoniker": "Models\\User.cs",
-              "ToolTip": "D:\\SLIIT YEAR 4\\Semester 1\\EAD\\Assignment\\E-commerce-App\\Ecommerce\\Models\\User.cs",
-              "RelativeToolTip": "Models\\User.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAoAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-29T06:51:19.825Z",
+              "WhenOpened": "2024-09-30T05:02:38.778Z",
               "EditorCaption": ""
             }
           ]
