@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\KIU\\Desktop\\projects\\E-commerce-App\\Ecommerce\\Ecommerce.csproj": {}
+    "D:\\SLIIT YEAR 4\\Semester 1\\EAD\\Assignment\\E-commerce-App\\Ecommerce\\Ecommerce.csproj": {}
   },
   "projects": {
-    "C:\\Users\\KIU\\Desktop\\projects\\E-commerce-App\\Ecommerce\\Ecommerce.csproj": {
+    "D:\\SLIIT YEAR 4\\Semester 1\\EAD\\Assignment\\E-commerce-App\\Ecommerce\\Ecommerce.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\KIU\\Desktop\\projects\\E-commerce-App\\Ecommerce\\Ecommerce.csproj",
+        "projectUniqueName": "D:\\SLIIT YEAR 4\\Semester 1\\EAD\\Assignment\\E-commerce-App\\Ecommerce\\Ecommerce.csproj",
         "projectName": "Ecommerce",
-        "projectPath": "C:\\Users\\KIU\\Desktop\\projects\\E-commerce-App\\Ecommerce\\Ecommerce.csproj",
-        "packagesPath": "C:\\Users\\KIU\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\KIU\\Desktop\\projects\\E-commerce-App\\Ecommerce\\obj\\",
+        "projectPath": "D:\\SLIIT YEAR 4\\Semester 1\\EAD\\Assignment\\E-commerce-App\\Ecommerce\\Ecommerce.csproj",
+        "packagesPath": "C:\\Users\\shadh\\.nuget\\packages\\",
+        "outputPath": "D:\\SLIIT YEAR 4\\Semester 1\\EAD\\Assignment\\E-commerce-App\\Ecommerce\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\KIU\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\shadh\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
