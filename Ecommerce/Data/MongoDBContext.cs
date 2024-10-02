@@ -17,5 +17,6 @@ namespace Ecommerce.Data
         public IMongoCollection<Category> Categories => _database.GetCollection<Category>("Categories");
         public IMongoCollection<Product> Products => _database.GetCollection<Product>("Products");
         public IMongoCollection<ProductListing> ProductListings => _database.GetCollection<ProductListing>("ProductListings");
+        public IMongoCollection<Order> Orders => _database.GetCollection<Order>("Orders");
     }
 }
