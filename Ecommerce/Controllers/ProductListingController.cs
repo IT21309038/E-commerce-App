@@ -47,6 +47,7 @@ namespace Ecommerce.Controllers
                 {
                     Id = pl.Id,
                     ProductId = pl.ProductId,
+                    UserId = pl.UserId,
                     ProductName = product?.ProductName,  // Fetch the product name
                     VendorId = product?.VendorId,
                     VendorName = vendor?.Name,     // Fetch the vendor name using the VendorId
@@ -89,6 +90,7 @@ namespace Ecommerce.Controllers
             {
                 Id = productListing.Id,
                 ProductId = productListing.ProductId,
+                UserId = productListing.UserId,
                 ProductName = product.ProductName,  // Product name from the Products collection
                 VendorId = product.VendorId,
                 VendorName = vendor?.Name,    // Vendor name from the Vendors collection
@@ -128,6 +130,48 @@ namespace Ecommerce.Controllers
                 {
                     Id = pl.Id,
                     ProductId = pl.ProductId,
+                    UserId = pl.UserId,
+                    ProductName = product?.ProductName,  // Fetch the product name
+                    VendorId = product?.VendorId,
+                    VendorName = vendor?.Name,     // Fetch the vendor name using the VendorId
+                    OrderId = pl.OrderId,
+                    Quantity = pl.Quantity,
+                    Price = pl.Price,
+                    ReadyStatus = pl.ReadyStatus,
+                    DeliveredStatus = pl.DeliveredStatus
+                };
+            }).ToList();
+
+            return Ok(productListingsWithDetails);
+        }
+
+        //Get product listing by user id
+        [HttpGet("user/{userId:length(24)}")]
+        public async Task<ActionResult<IEnumerable<ListingGetDTO>>> GetByUserId(string userId)
+        {
+            var productListings = await _context.ProductListings.Find(productListing => productListing.UserId == userId).ToListAsync();
+
+            // Fetch product details for the ProductId
+            var productIds = productListings.Select(pl => pl.ProductId).Distinct().ToList();
+            var products = await _context.Products.Find(product => productIds.Contains(product.Id)).ToListAsync();
+
+            // Fetch vendor IDs based on the products
+            var vendorIds = products.Select(p => p.VendorId).Distinct().ToList();
+            var vendors = await _context.Users.Find(vendor => vendorIds.Contains(vendor.Id)).ToListAsync();
+
+            var productListingsWithDetails = productListings.Select(pl =>
+            {
+                // Find the product for this product listing
+                var product = products.FirstOrDefault(p => p.Id == pl.ProductId);
+
+                // Find the vendor using the VendorId from the product
+                var vendor = product != null ? vendors.FirstOrDefault(v => v.Id == product.VendorId) : null;
+
+                return new ListingGetDTO
+                {
+                    Id = pl.Id,
+                    ProductId = pl.ProductId,
+                    UserId = pl.UserId,
                     ProductName = product?.ProductName,  // Fetch the product name
                     VendorId = product?.VendorId,
                     VendorName = vendor?.Name,     // Fetch the vendor name using the VendorId
@@ -153,11 +197,15 @@ namespace Ecommerce.Controllers
                 return BadRequest("Product does not exist");
             }
 
+            // Calculate the total price by multiplying the unit price by the quantity
+            var totalPrice = existingProduct.UnitPrice * productListingAddDTO.Quantity;
+
             var productListing = new ProductListing
             {
                 ProductId = productListingAddDTO.ProductId,
+                UserId = productListingAddDTO.UserId,
                 Quantity = productListingAddDTO.Quantity,
-                Price = productListingAddDTO.Price,
+                Price = (double)totalPrice, // Set the calculated price
                 OrderId = null,
                 ReadyStatus = false,
                 DeliveredStatus = false
@@ -167,23 +215,37 @@ namespace Ecommerce.Controllers
             return CreatedAtRoute("GetProductListing", new { id = productListing.Id.ToString() }, productListing);
         }
 
+
         [HttpPut("{id:length(24)}")]
         public async Task<IActionResult> Update(string id, ListingUpdateDTO productListingUpdateDTO)
         {
-            var productListing = await _context.ProductListings.Find<ProductListing>(productListing => productListing.Id == id).FirstOrDefaultAsync();
+            // Find the existing product listing
+            var productListing = await _context.ProductListings.Find<ProductListing>(listing => listing.Id == id).FirstOrDefaultAsync();
 
             if (productListing == null)
             {
                 return NotFound();
             }
 
+            // Fetch the product associated with the listing to get the unit price
+            var existingProduct = await _context.Products.Find<Product>(product => product.Id == productListing.ProductId).FirstOrDefaultAsync();
+
+            if (existingProduct == null)
+            {
+                return BadRequest("Product does not exist");
+            }
+
+            var totalPrice = existingProduct.UnitPrice * productListingUpdateDTO.Quantity;
+
+            // Update the quantity and calculate the new price based on the product's unit price
             productListing.Quantity = productListingUpdateDTO.Quantity;
-            productListing.Price = productListingUpdateDTO.Price;
+            productListing.Price = (double)totalPrice;
 
-            await _context.ProductListings.ReplaceOneAsync(productListing => productListing.Id == id, productListing);
+            // Save the updated product listing
+            await _context.ProductListings.ReplaceOneAsync(listing => listing.Id == id, productListing);
             return Ok("Updated product listing with id " + id + " successfully");
-
         }
+
 
         [HttpDelete("{id:length(24)}")]
         public async Task<IActionResult> Delete(string id)

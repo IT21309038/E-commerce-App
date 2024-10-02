@@ -12,6 +12,8 @@ namespace Ecommerce.Models
         public string ProductId { get; set; }
         [BsonElement("OrderId")]
         public string OrderId { get; set; }
+        [BsonElement("UserId")]
+        public string UserId { get; set; }
         [BsonElement("Quantity")]
         public int Quantity { get; set; }
         [BsonElement("Price")]
