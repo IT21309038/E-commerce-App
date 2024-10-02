@@ -20,5 +20,8 @@ namespace Ecommerce.Models
 
         [BsonElement("Role")]
         public string Role { get; set; }
+
+        [BsonElement("Active_Status")]
+        public bool Active_Status { get; set; }
     }
 }
