@@ -60,6 +60,25 @@ namespace Ecommerce.Controllers
             return Ok(order);
         }
 
+        //Get by CustomerId
+        [HttpGet("customer/{customerId}")]
+        public async Task<ActionResult<IEnumerable<Order>>> GetByCustomerId(string customerId)
+        {
+            // Fetch all orders by CustomerId
+            var orders = await _context.Orders.Find(order => order.CustomerId == customerId).ToListAsync();
+
+            // Fetch and update the order items with fresh product listings
+            foreach (var order in orders)
+            {
+                var updatedOrderItems = await _context.ProductListings
+                                                      .Find(listing => order.OrderItems.Select(i => i.Id).Contains(listing.Id))
+                                                      .ToListAsync();
+                order.OrderItems = updatedOrderItems; // Update order with fresh product listings
+            }
+
+            return Ok(orders);
+        }
+
 
         [HttpPost]
         public async Task<ActionResult<Order>> Create(OrderAddDTO orderAddDTO)
