@@ -145,11 +145,11 @@ namespace Ecommerce.Controllers
             return Ok(productListingsWithDetails);
         }
 
-        //Get product listing by user id
+        //Get product listing by user id and order id is null
         [HttpGet("user/{userId:length(24)}")]
         public async Task<ActionResult<IEnumerable<ListingGetDTO>>> GetByUserId(string userId)
         {
-            var productListings = await _context.ProductListings.Find(productListing => productListing.UserId == userId).ToListAsync();
+            var productListings = await _context.ProductListings.Find(productListing => productListing.UserId == userId && productListing.OrderId == null).ToListAsync();
 
             // Fetch product details for the ProductId
             var productIds = productListings.Select(pl => pl.ProductId).Distinct().ToList();
