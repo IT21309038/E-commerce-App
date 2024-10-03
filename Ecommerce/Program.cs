@@ -18,19 +18,6 @@ builder.Services.AddSingleton<MongoDBContext>(ServiceProvider =>
 });
 
 //cros origin
-//var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
-
-//builder.Services.AddCors(options =>
-//{
-//    options.AddPolicy(name: MyAllowSpecificOrigins,
-//                      policy =>
-//                      {
-//                          policy.WithOrigins("*");
-//                          policy.WithHeaders("*");
-//                          policy.WithMethods("*");
-//                      });
-//});
-
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(
@@ -58,7 +45,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-//app.UseCors(MyAllowSpecificOrigins);
 app.UseCors();
 
 
