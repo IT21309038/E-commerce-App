@@ -3,24 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\KIU\\Desktop\\projects\\E-commerce-App\\Ecommerce\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|c:\\users\\kiu\\desktop\\projects\\e-commerce-app\\ecommerce\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|solutionrelative:controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|c:\\users\\kiu\\desktop\\projects\\e-commerce-app\\ecommerce\\dto\\orderupdatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|solutionrelative:dto\\orderupdatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|c:\\users\\kiu\\desktop\\projects\\e-commerce-app\\ecommerce\\dto\\orderadddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|solutionrelative:dto\\orderadddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|c:\\users\\kiu\\desktop\\projects\\e-commerce-app\\ecommerce\\models\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|solutionrelative:models\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|c:\\users\\kiu\\desktop\\projects\\e-commerce-app\\ecommerce\\controllers\\productlistingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|solutionrelative:controllers\\productlistingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|c:\\users\\kiu\\desktop\\projects\\e-commerce-app\\ecommerce\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,68 +14,20 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "OrderUpdateDTO.cs",
-              "DocumentMoniker": "C:\\Users\\KIU\\Desktop\\projects\\E-commerce-App\\Ecommerce\\DTO\\OrderUpdateDTO.cs",
-              "RelativeDocumentMoniker": "DTO\\OrderUpdateDTO.cs",
-              "ToolTip": "C:\\Users\\KIU\\Desktop\\projects\\E-commerce-App\\Ecommerce\\DTO\\OrderUpdateDTO.cs",
-              "RelativeToolTip": "DTO\\OrderUpdateDTO.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-02T17:35:41.563Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "OrderController.cs",
-              "DocumentMoniker": "C:\\Users\\KIU\\Desktop\\projects\\E-commerce-App\\Ecommerce\\Controllers\\OrderController.cs",
-              "RelativeDocumentMoniker": "Controllers\\OrderController.cs",
-              "ToolTip": "C:\\Users\\KIU\\Desktop\\projects\\E-commerce-App\\Ecommerce\\Controllers\\OrderController.cs",
-              "RelativeToolTip": "Controllers\\OrderController.cs",
-              "ViewState": "AgIAABYAAAAAAAAAAAAQwE8AAAAJAAAAAAAAAA==",
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\KIU\\Desktop\\projects\\E-commerce-App\\Ecommerce\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\KIU\\Desktop\\projects\\E-commerce-App\\Ecommerce\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAB0AAAAAAAAAAAAAwC0AAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-02T16:51:46.3Z",
+              "WhenOpened": "2024-10-03T03:33:09.44Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "ProductListingController.cs",
-              "DocumentMoniker": "C:\\Users\\KIU\\Desktop\\projects\\E-commerce-App\\Ecommerce\\Controllers\\ProductListingController.cs",
-              "RelativeDocumentMoniker": "Controllers\\ProductListingController.cs",
-              "ToolTip": "C:\\Users\\KIU\\Desktop\\projects\\E-commerce-App\\Ecommerce\\Controllers\\ProductListingController.cs",
-              "RelativeToolTip": "Controllers\\ProductListingController.cs",
-              "ViewState": "AgIAAMEAAAAAAAAAAAAkwL4AAABMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-02T16:51:29.06Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "OrderAddDTO.cs",
-              "DocumentMoniker": "C:\\Users\\KIU\\Desktop\\projects\\E-commerce-App\\Ecommerce\\DTO\\OrderAddDTO.cs",
-              "RelativeDocumentMoniker": "DTO\\OrderAddDTO.cs",
-              "ToolTip": "C:\\Users\\KIU\\Desktop\\projects\\E-commerce-App\\Ecommerce\\DTO\\OrderAddDTO.cs",
-              "RelativeToolTip": "DTO\\OrderAddDTO.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-02T16:50:31.163Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Order.cs",
-              "DocumentMoniker": "C:\\Users\\KIU\\Desktop\\projects\\E-commerce-App\\Ecommerce\\Models\\Order.cs",
-              "RelativeDocumentMoniker": "Models\\Order.cs",
-              "ToolTip": "C:\\Users\\KIU\\Desktop\\projects\\E-commerce-App\\Ecommerce\\Models\\Order.cs",
-              "RelativeToolTip": "Models\\Order.cs",
-              "ViewState": "AgIAAAQAAAAAAAAAAAAYwBsAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-02T16:42:30.172Z"
             }
           ]
         }

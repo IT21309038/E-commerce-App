@@ -18,14 +18,27 @@ builder.Services.AddSingleton<MongoDBContext>(ServiceProvider =>
 });
 
 //cros origin
+//var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy(name: MyAllowSpecificOrigins,
+//                      policy =>
+//                      {
+//                          policy.WithOrigins("*");
+//                          policy.WithHeaders("*");
+//                          policy.WithMethods("*");
+//                      });
+//});
+
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(
         builder =>
         {
             builder.WithOrigins("*")
-            .AllowAnyHeader()
-            .AllowAnyMethod();
+                   .AllowAnyHeader()
+                   .AllowAnyMethod();
         });
 });
 
@@ -43,9 +56,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseHttpsRedirection();
+
+//app.UseCors(MyAllowSpecificOrigins);
 app.UseCors();
 
-app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
