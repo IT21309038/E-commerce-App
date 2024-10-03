@@ -35,6 +35,12 @@ namespace Ecommerce.Controllers
                                                       .Find(listing => order.OrderItems.Select(i => i.Id).Contains(listing.Id))
                                                       .ToListAsync();
                 order.OrderItems = updatedOrderItems; // Update order with fresh product listings
+
+                // Update OrderStatus and EditableStatus based on DeliveredStatus and ActiveStatus
+                UpdateOrderStatus(order, updatedOrderItems);
+
+                // Save changes to the order
+                await _context.Orders.ReplaceOneAsync(o => o.Id == order.Id, order);
             }
 
             return Ok(orders);
@@ -57,10 +63,15 @@ namespace Ecommerce.Controllers
                                                   .ToListAsync();
             order.OrderItems = updatedOrderItems; // Update order with fresh product listings
 
+            // Update OrderStatus and EditableStatus based on DeliveredStatus and ActiveStatus
+            UpdateOrderStatus(order, updatedOrderItems);
+
+            // Save changes to the order
+            await _context.Orders.ReplaceOneAsync(o => o.Id == order.Id, order);
+
             return Ok(order);
         }
 
-        //Get by CustomerId
         [HttpGet("customer/{customerId}")]
         public async Task<ActionResult<IEnumerable<Order>>> GetByCustomerId(string customerId)
         {
@@ -74,10 +85,46 @@ namespace Ecommerce.Controllers
                                                       .Find(listing => order.OrderItems.Select(i => i.Id).Contains(listing.Id))
                                                       .ToListAsync();
                 order.OrderItems = updatedOrderItems; // Update order with fresh product listings
+
+                // Update OrderStatus and EditableStatus based on DeliveredStatus and ActiveStatus
+                UpdateOrderStatus(order, updatedOrderItems);
+
+                // Save changes to the order
+                await _context.Orders.ReplaceOneAsync(o => o.Id == order.Id, order);
             }
 
             return Ok(orders);
         }
+
+
+        private void UpdateOrderStatus(Order order, List<ProductListing> orderItems)
+        {
+            // Determine the OrderStatus based on DeliveredStatus
+            if (orderItems.All(item => item.DeliveredStatus == true))
+            {
+                order.OrderStatus = "Delivered";
+            }
+            else if (orderItems.Any(item => item.DeliveredStatus == true))
+            {
+                order.OrderStatus = "Partially Delivered";
+            }
+            else
+            {
+                order.OrderStatus = "Processing To Deliver";
+            }
+
+            // Determine the EditableStatus based on ActiveStatus
+            if (orderItems.Any(item => item.ReadyStatus == true))
+            {
+                order.EditableStatus = true;
+            }
+            else
+            {
+                order.EditableStatus = false;
+            }
+        }
+
+
 
 
         [HttpPost]
@@ -97,6 +144,7 @@ namespace Ecommerce.Controllers
             {
                 OrderDate = DateTime.Now,
                 OrderStatus = "Processing To Deliver",
+                EditableStatus = true,
                 TotalAmount = (decimal)orderItems.Sum(item => item.Price),
                 CustomerId = orderAddDTO.CustomerId,
                 OrderItems = orderItems // Full product listings are added here
