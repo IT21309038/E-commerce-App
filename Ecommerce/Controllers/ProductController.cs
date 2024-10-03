@@ -44,10 +44,41 @@ namespace Ecommerce.Controllers
                 Quantity = product.Quantity,
                 Image = product.Image,
                 CategoryName = category?.CategoryName,  // Null check in case category is missing
-                VendorName = vendor?.Name               // Null check in case vendor is missing
+                VendorName = vendor?.Name,               // Null check in case vendor is missing
+                VendorId = product.VendorId
             };
 
             return productDTO;
+        }
+
+        //Get product by VendorId
+        [HttpGet("vendor/{id:length(24)}")]
+        public async Task<ActionResult<IEnumerable<ProductGetDTO>>> GetProductByVendor(string id)
+        {
+            var products = await _context.Products.Find(p => p.VendorId == id).ToListAsync();
+            var productDTOs = new List<ProductGetDTO>();
+
+            foreach (var product in products)
+            {
+                // Fetch the category and ensure ActiveStatus == true
+                var category = await _context.Categories.Find(c => c.Id == product.CategoryId && c.ActiveStatus == true).FirstOrDefaultAsync();
+                var vendor = await _context.Users.Find(u => u.Id == product.VendorId).FirstOrDefaultAsync();
+                productDTOs.Add(
+                    new ProductGetDTO
+                    {
+                        Id = product.Id.ToString(),
+                        ProductName = product.ProductName,
+                        ProductDescription = product.ProductDescription,
+                        UnitPrice = product.UnitPrice,
+                        Quantity = product.Quantity,
+                        Image = product.Image,
+                        CategoryName = category.CategoryName,
+                        VendorName = vendor?.Name,
+                        VendorId = product.VendorId
+                    }
+                );
+            }
+            return Ok( productDTOs );
         }
 
         // GET: api/Product
@@ -81,7 +112,8 @@ namespace Ecommerce.Controllers
                     Quantity = product.Quantity,
                     Image = product.Image,
                     CategoryName = category.CategoryName, // Category is guaranteed to be active here
-                    VendorName = vendor?.Name             // Null check in case vendor is missing
+                    VendorName = vendor?.Name,             // Null check in case vendor is missing
+                    VendorId = product.VendorId
                 });
             }
 
