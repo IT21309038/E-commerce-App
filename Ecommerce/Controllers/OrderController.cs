@@ -116,16 +116,13 @@ namespace Ecommerce.Controllers
             // Determine the EditableStatus based on ActiveStatus
             if (orderItems.Any(item => item.ReadyStatus == true))
             {
-                order.EditableStatus = true;
+                order.EditableStatus = false;
             }
             else
             {
-                order.EditableStatus = false;
+                order.EditableStatus = true;
             }
         }
-
-
-
 
         [HttpPost]
         public async Task<ActionResult<Order>> Create(OrderAddDTO orderAddDTO)
@@ -140,6 +137,31 @@ namespace Ecommerce.Controllers
                 return BadRequest("Some product listings could not be found.");
             }
 
+            // Fetch products to check quantities
+            var insufficientProducts = new List<string>();
+
+            foreach (var item in orderItems)
+            {
+                var product = await _context.Products.Find(p => p.Id == item.ProductId).FirstOrDefaultAsync();
+                if (product == null || product.Quantity < item.Quantity)
+                {
+                    insufficientProducts.Add(item.ProductId);
+                }
+            }
+
+            if (insufficientProducts.Any())
+            {
+                return BadRequest($"Insufficient quantity for products: {string.Join(", ", insufficientProducts)}");
+            }
+
+            // Reduce the product quantities
+            foreach (var item in orderItems)
+            {
+                var product = await _context.Products.Find(p => p.Id == item.ProductId).FirstOrDefaultAsync();
+                product.Quantity -= item.Quantity;
+                await _context.Products.ReplaceOneAsync(p => p.Id == product.Id, product);
+            }
+
             var order = new Order
             {
                 OrderDate = DateTime.Now,
@@ -147,7 +169,7 @@ namespace Ecommerce.Controllers
                 EditableStatus = true,
                 TotalAmount = (decimal)orderItems.Sum(item => item.Price),
                 CustomerId = orderAddDTO.CustomerId,
-                OrderItems = orderItems // Full product listings are added here
+                OrderItems = orderItems
             };
 
             // Insert the order into the Orders collection
@@ -156,79 +178,126 @@ namespace Ecommerce.Controllers
             // Update the orderId field in each ProductListing
             foreach (var item in orderItems)
             {
-                item.OrderId = order.Id; // Set the orderId field
+                item.OrderId = order.Id;
                 await _context.ProductListings.ReplaceOneAsync(p => p.Id == item.Id, item);
             }
 
             return CreatedAtRoute("GetOrder", new { id = order.Id.ToString() }, order);
         }
 
+
         [HttpPut("{id:length(24)}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Update(string id, OrderUpdateDTO orderUpdateDTO)
         {
-            // Fetch the order
             var order = await _context.Orders.Find(o => o.Id == id).FirstOrDefaultAsync();
             if (order == null)
             {
-                return NotFound(); // Return 404 if the order is not found
+                return NotFound();
             }
 
-            // Fetch current product listings in the order
             var currentOrderItems = order.OrderItems;
-
-            // Fetch updated product listings from the database using the provided IDs
             var updatedOrderItems = await _context.ProductListings
                                                   .Find(listing => orderUpdateDTO.OrderItemIds.Contains(listing.Id))
                                                   .ToListAsync();
 
             if (updatedOrderItems.Count != orderUpdateDTO.OrderItemIds.Count)
             {
-                return BadRequest("Some product listings could not be found."); // Return 400 if some product listings are missing
+                return BadRequest("Some product listings could not be found.");
             }
 
-            // Check if any product's ReadyStatus is true and block the update if so
             if (updatedOrderItems.Any(item => item.ReadyStatus == true))
             {
                 return BadRequest("Cannot update the order because one or more products have ReadyStatus set to true.");
             }
 
-            // Find products that were removed in the update (products that are in the current order but not in the updated list)
-            var removedOrderItems = currentOrderItems.Where(item => !orderUpdateDTO.OrderItemIds.Contains(item.Id)).ToList();
+            // Check for sufficient quantity in newly added products
+            var newItems = updatedOrderItems.Where(item => !currentOrderItems.Any(c => c.Id == item.Id)).ToList();
+            var insufficientProducts = new List<string>();
 
-            // Set the OrderId of removed product listings to null
-            foreach (var removedItem in removedOrderItems)
+            foreach (var item in newItems)
             {
-                removedItem.OrderId = null;
-                await _context.ProductListings.ReplaceOneAsync(p => p.Id == removedItem.Id, removedItem);
+                var product = await _context.Products.Find(p => p.Id == item.ProductId).FirstOrDefaultAsync();
+                if (product == null || product.Quantity < item.Quantity)
+                {
+                    insufficientProducts.Add(item.ProductId);
+                }
             }
 
-            // Update the OrderId field for new or existing product listings in the updated order
-            foreach (var updatedItem in updatedOrderItems)
+            if (insufficientProducts.Any())
             {
-                updatedItem.OrderId = order.Id; // Set the orderId field
-                await _context.ProductListings.ReplaceOneAsync(p => p.Id == updatedItem.Id, updatedItem);
+                return BadRequest($"Insufficient quantity for products: {string.Join(", ", insufficientProducts)}");
             }
 
-            // Update the order with the new product listings
+            // Restore product quantity for removed items
+            var removedItems = currentOrderItems.Where(item => !updatedOrderItems.Any(u => u.Id == item.Id)).ToList();
+            foreach (var item in removedItems)
+            {
+                var product = await _context.Products.Find(p => p.Id == item.ProductId).FirstOrDefaultAsync();
+                product.Quantity += item.Quantity;
+                await _context.Products.ReplaceOneAsync(p => p.Id == product.Id, product);
+            }
+
+            // Reduce product quantity for newly added items
+            foreach (var item in newItems)
+            {
+                var product = await _context.Products.Find(p => p.Id == item.ProductId).FirstOrDefaultAsync();
+                product.Quantity -= item.Quantity;
+                await _context.Products.ReplaceOneAsync(p => p.Id == product.Id, product);
+            }
+
+            // Update the order and save changes
             order.OrderItems = updatedOrderItems;
-
-            // Calculate the new total amount
             order.TotalAmount = (decimal)updatedOrderItems.Sum(item => item.Price);
-
-            // Save the updated order
             await _context.Orders.ReplaceOneAsync(o => o.Id == id, order);
 
-            return Ok("Order with " + id + " updated successfully");
+            return Ok("Order updated successfully");
         }
 
+
         [HttpDelete("{id:length(24)}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var order = await _context.Orders.Find(o => o.Id == id).FirstOrDefaultAsync();
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            var orderItems = await _context.ProductListings
+                                           .Find(listing => order.OrderItems.Select(i => i.Id).Contains(listing.Id))
+                                           .ToListAsync();
+
+            if (orderItems.Any(item => item.ReadyStatus == true))
+            {
+                return BadRequest("Cannot delete the order because one or more products have ReadyStatus set to true.");
+            }
+
+            // Restore product quantities before deleting the order
+            foreach (var item in orderItems)
+            {
+                var product = await _context.Products.Find(p => p.Id == item.ProductId).FirstOrDefaultAsync();
+                product.Quantity += item.Quantity;
+                await _context.Products.ReplaceOneAsync(p => p.Id == product.Id, product);
+            }
+
+            // Set the OrderId of each product listing in the order to null
+            foreach (var item in orderItems)
+            {
+                item.OrderId = null;
+                await _context.ProductListings.ReplaceOneAsync(p => p.Id == item.Id, item);
+            }
+
+            await _context.Orders.DeleteOneAsync(o => o.Id == id);
+
+            return Ok("Order deleted successfully");
+        }
+
+
+        //put method to update order status to Delivered and all product listings to DeliveredStatus to true and ReadyStatus to true
+        [HttpPut("deliver/{id:length(24)}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> DeliverOrder(string id)
         {
             // Fetch the order by its ID
             var order = await _context.Orders.Find(o => o.Id == id).FirstOrDefaultAsync();
@@ -242,27 +311,23 @@ namespace Ecommerce.Controllers
                                            .Find(listing => order.OrderItems.Select(i => i.Id).Contains(listing.Id))
                                            .ToListAsync();
 
-            // Check if any product has ReadyStatus set to true, and block the deletion if so
-            if (orderItems.Any(item => item.ReadyStatus == true))
-            {
-                return BadRequest("Cannot delete the order because one or more products have ReadyStatus set to true.");
-            }
-
-            // Set the OrderId of each product listing in the order to null
+            // Update the DeliveredStatus and ReadyStatus of each product listing in the order
             foreach (var item in orderItems)
             {
-                item.OrderId = null;
+                item.DeliveredStatus = true;
+                item.ReadyStatus = true;
                 await _context.ProductListings.ReplaceOneAsync(p => p.Id == item.Id, item);
             }
 
-            // Delete the order from the Orders collection
-            await _context.Orders.DeleteOneAsync(o => o.Id == id);
+            // Update the OrderStatus and EditableStatus of the order
+            order.OrderStatus = "Delivered";
+            order.EditableStatus = false;
 
-            return Ok("Order with " + id + " deleted successfully");
+            // Save the updated order
+            await _context.Orders.ReplaceOneAsync(o => o.Id == id, order);
+
+            return Ok("Order with " + id + " delivered successfully");
         }
-
-
-
 
     }
 }
