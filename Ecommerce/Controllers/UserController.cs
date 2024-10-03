@@ -48,6 +48,13 @@ namespace Ecommerce.Controllers
             return await _context.Users.Find<User>(user => user.Role == "Customer").ToListAsync();
         }
 
+        //Get all users with role as Vendor
+        [HttpGet("vendors")]
+        public async Task<ActionResult<IEnumerable<User>>> GetVendors()
+        {
+            return await _context.Users.Find<User>(user => user.Role == "Vendor").ToListAsync();
+        }
+
         [HttpPost]
         public async Task<ActionResult<User>> Create(RegisterDTO registerDTO)
         {
