@@ -21,6 +21,9 @@ namespace Ecommerce.Models
         [BsonElement("quantity")]
         public int Quantity { get; set; }
 
+        [BsonElement("initial_quantity")]
+        public int InitialQuantity { get; set; }
+
         [BsonElement("image")]
         public string Image { get; set; }
 
@@ -31,5 +34,7 @@ namespace Ecommerce.Models
         [BsonElement("vendor_id")]
         [BsonRepresentation(BsonType.ObjectId)]
         public string VendorId { get; set; }
+
+        
     }
 }
