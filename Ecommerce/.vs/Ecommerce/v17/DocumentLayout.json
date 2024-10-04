@@ -1,18 +1,26 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\KIU\\Desktop\\projects\\E-commerce-App\\Ecommerce\\",
+  "WorkspaceRootPath": "D:\\SLIIT YEAR 4\\Semester 1\\EAD\\Assignment\\E-commerce-App\\Ecommerce\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|c:\\users\\kiu\\desktop\\projects\\e-commerce-app\\ecommerce\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|d:\\sliit year 4\\semester 1\\ead\\assignment\\e-commerce-app\\ecommerce\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|solutionrelative:controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|c:\\users\\kiu\\desktop\\projects\\e-commerce-app\\ecommerce\\dto\\restockdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|solutionrelative:dto\\restockdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|d:\\sliit year 4\\semester 1\\ead\\assignment\\e-commerce-app\\ecommerce\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|solutionrelative:models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|c:\\users\\kiu\\desktop\\projects\\e-commerce-app\\ecommerce\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|solutionrelative:models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|d:\\sliit year 4\\semester 1\\ead\\assignment\\e-commerce-app\\ecommerce\\dto\\productgetdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|solutionrelative:dto\\productgetdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|d:\\sliit year 4\\semester 1\\ead\\assignment\\e-commerce-app\\ecommerce\\models\\ranking.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|solutionrelative:models\\ranking.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|d:\\sliit year 4\\semester 1\\ead\\assignment\\e-commerce-app\\ecommerce\\dto\\restockdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{190F6224-473B-4EBB-AD0A-9CBFC3B3E9B7}|Ecommerce.csproj|solutionrelative:dto\\restockdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,30 +30,55 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "RestockDTO.cs",
-              "DocumentMoniker": "C:\\Users\\KIU\\Desktop\\projects\\E-commerce-App\\Ecommerce\\DTO\\RestockDTO.cs",
-              "RelativeDocumentMoniker": "DTO\\RestockDTO.cs",
-              "ToolTip": "C:\\Users\\KIU\\Desktop\\projects\\E-commerce-App\\Ecommerce\\DTO\\RestockDTO.cs",
-              "RelativeToolTip": "DTO\\RestockDTO.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAApAAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "Ranking.cs",
+              "DocumentMoniker": "D:\\SLIIT YEAR 4\\Semester 1\\EAD\\Assignment\\E-commerce-App\\Ecommerce\\Models\\Ranking.cs",
+              "RelativeDocumentMoniker": "Models\\Ranking.cs",
+              "ToolTip": "D:\\SLIIT YEAR 4\\Semester 1\\EAD\\Assignment\\E-commerce-App\\Ecommerce\\Models\\Ranking.cs",
+              "RelativeToolTip": "Models\\Ranking.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-04T07:52:42.889Z",
+              "WhenOpened": "2024-10-04T17:00:49.125Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "ProductGetDTO.cs",
+              "DocumentMoniker": "D:\\SLIIT YEAR 4\\Semester 1\\EAD\\Assignment\\E-commerce-App\\Ecommerce\\DTO\\ProductGetDTO.cs",
+              "RelativeDocumentMoniker": "DTO\\ProductGetDTO.cs",
+              "ToolTip": "D:\\SLIIT YEAR 4\\Semester 1\\EAD\\Assignment\\E-commerce-App\\Ecommerce\\DTO\\ProductGetDTO.cs",
+              "RelativeToolTip": "DTO\\ProductGetDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-04T16:59:54.778Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "RestockDTO.cs",
+              "DocumentMoniker": "D:\\SLIIT YEAR 4\\Semester 1\\EAD\\Assignment\\E-commerce-App\\Ecommerce\\DTO\\RestockDTO.cs",
+              "RelativeDocumentMoniker": "DTO\\RestockDTO.cs",
+              "ToolTip": "D:\\SLIIT YEAR 4\\Semester 1\\EAD\\Assignment\\E-commerce-App\\Ecommerce\\DTO\\RestockDTO.cs",
+              "RelativeToolTip": "DTO\\RestockDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-04T07:52:42.889Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "Product.cs",
-              "DocumentMoniker": "C:\\Users\\KIU\\Desktop\\projects\\E-commerce-App\\Ecommerce\\Models\\Product.cs",
+              "DocumentMoniker": "D:\\SLIIT YEAR 4\\Semester 1\\EAD\\Assignment\\E-commerce-App\\Ecommerce\\Models\\Product.cs",
               "RelativeDocumentMoniker": "Models\\Product.cs",
-              "ToolTip": "C:\\Users\\KIU\\Desktop\\projects\\E-commerce-App\\Ecommerce\\Models\\Product.cs",
+              "ToolTip": "D:\\SLIIT YEAR 4\\Semester 1\\EAD\\Assignment\\E-commerce-App\\Ecommerce\\Models\\Product.cs",
               "RelativeToolTip": "Models\\Product.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAA1wBgAAAAwAAAAAAAAAA==",
+              "ViewState": "AgIAABAAAAAAAAAAAAAgwCgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-04T05:35:40.837Z",
               "EditorCaption": ""
@@ -54,11 +87,11 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "ProductController.cs",
-              "DocumentMoniker": "C:\\Users\\KIU\\Desktop\\projects\\E-commerce-App\\Ecommerce\\Controllers\\ProductController.cs",
+              "DocumentMoniker": "D:\\SLIIT YEAR 4\\Semester 1\\EAD\\Assignment\\E-commerce-App\\Ecommerce\\Controllers\\ProductController.cs",
               "RelativeDocumentMoniker": "Controllers\\ProductController.cs",
-              "ToolTip": "C:\\Users\\KIU\\Desktop\\projects\\E-commerce-App\\Ecommerce\\Controllers\\ProductController.cs*",
-              "RelativeToolTip": "Controllers\\ProductController.cs*",
-              "ViewState": "AgIAAGcAAAAAAAAAAAAIwFsAAAA0AAAAAAAAAA==",
+              "ToolTip": "D:\\SLIIT YEAR 4\\Semester 1\\EAD\\Assignment\\E-commerce-App\\Ecommerce\\Controllers\\ProductController.cs",
+              "RelativeToolTip": "Controllers\\ProductController.cs",
+              "ViewState": "AgIAADcAAAAAAAAAAADwv3oAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-04T05:27:28.059Z",
               "EditorCaption": ""

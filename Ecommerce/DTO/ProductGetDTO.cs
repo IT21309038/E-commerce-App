@@ -12,6 +12,7 @@
         public string CategoryName { get; set; }
         public string VendorName { get; set; }
         public string VendorId { get; set; }
+        public double Rating { get; set; }
         public bool LowStock { get; set; }
     }
 }

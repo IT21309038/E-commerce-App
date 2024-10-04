@@ -310,7 +310,7 @@
   },
   {
     "ContainingType": "Ecommerce.Controllers.ProductController",
-    "Method": "Get",
+    "Method": "GetProducts",
     "RelativePath": "api/Product",
     "HttpMethod": "GET",
     "IsController": true,
@@ -464,6 +464,37 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Ecommerce.Controllers.ProductController",
+    "Method": "GetProductsSearch",
+    "RelativePath": "api/Product/search",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "productName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "categoryId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Ecommerce.DTO.ProductGetDTO, Ecommerce, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "Ecommerce.Controllers.ProductController",
