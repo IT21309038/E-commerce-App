@@ -18,6 +18,9 @@ namespace Ecommerce.Models
         [BsonElement("editable_status")]
         public bool EditableStatus { get; set; }
 
+        [BsonElement("cancel_status")]
+        public bool CancelStatus { get; set; }
+
         [BsonElement("total_amount")]
         public decimal TotalAmount { get; set; }
 

@@ -302,5 +302,21 @@ namespace Ecommerce.Controllers
             await _context.ProductListings.ReplaceOneAsync(productListing => productListing.Id == id, productListing);
             return Ok("Product listing with id " + id + " is now delivered");
         }
+
+        //Delete all product listing according to user id
+        [HttpDelete("user/{userId:length(24)}")]
+        public async Task<IActionResult> DeleteByUserId(string userId)
+        {
+            var productListing = await _context.ProductListings.Find<ProductListing>(productListing => productListing.UserId == userId).ToListAsync();
+
+            if (productListing == null)
+            {
+                return NotFound();
+            }
+
+            await _context.ProductListings.DeleteManyAsync(productListing => productListing.UserId == userId);
+            return Ok("Product listing with user id " + userId + " deleted sucessfully");
+        }
+
     }
 }

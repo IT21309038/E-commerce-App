@@ -96,6 +96,31 @@ namespace Ecommerce.Controllers
             return Ok(orders);
         }
 
+        //Get all orders with CancelStatus true
+        [HttpGet("cancel")]
+        public async Task<ActionResult<IEnumerable<Order>>> GetCancelOrders()
+        {
+            // Fetch all orders with CancelStatus true
+            var orders = await _context.Orders.Find(order => order.CancelStatus == true).ToListAsync();
+
+            // Fetch and update the order items with fresh product listings
+            foreach (var order in orders)
+            {
+                var updatedOrderItems = await _context.ProductListings
+                                                      .Find(listing => order.OrderItems.Select(i => i.Id).Contains(listing.Id))
+                                                      .ToListAsync();
+                order.OrderItems = updatedOrderItems; // Update order with fresh product listings
+
+                // Update OrderStatus and EditableStatus based on DeliveredStatus and ActiveStatus
+                UpdateOrderStatus(order, updatedOrderItems);
+
+                // Save changes to the order
+                await _context.Orders.ReplaceOneAsync(o => o.Id == order.Id, order);
+            }
+
+            return Ok(orders);
+        }
+
 
         private void UpdateOrderStatus(Order order, List<ProductListing> orderItems)
         {
@@ -108,13 +133,17 @@ namespace Ecommerce.Controllers
             {
                 order.OrderStatus = "Partially Delivered";
             }
+            else if (order.CancelStatus == true)
+            {
+                order.OrderStatus = "Cancel Requested";
+            }
             else
             {
                 order.OrderStatus = "Processing To Deliver";
             }
 
             // Determine the EditableStatus based on ActiveStatus
-            if (orderItems.Any(item => item.ReadyStatus == true))
+            if (orderItems.Any(item => item.ReadyStatus == true) || order.CancelStatus == true)
             {
                 order.EditableStatus = false;
             }
@@ -255,7 +284,7 @@ namespace Ecommerce.Controllers
 
 
         [HttpDelete("{id:length(24)}")]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(string id, [FromBody] CancelOrderDTO cancelOrderDTO)
         {
             var order = await _context.Orders.Find(o => o.Id == id).FirstOrDefaultAsync();
             if (order == null)
@@ -266,6 +295,13 @@ namespace Ecommerce.Controllers
             var orderItems = await _context.ProductListings
                                            .Find(listing => order.OrderItems.Select(i => i.Id).Contains(listing.Id))
                                            .ToListAsync();
+
+            //check CancelStatus of order is true or not
+            if (order.CancelStatus != true)
+            {
+                return BadRequest("User has not requested for a cancellation.");
+            }
+
 
             if (orderItems.Any(item => item.ReadyStatus == true))
             {
@@ -287,10 +323,23 @@ namespace Ecommerce.Controllers
                 await _context.ProductListings.ReplaceOneAsync(p => p.Id == item.Id, item);
             }
 
+            // Create and store a new CancelledOrders entry
+            var cancelledOrder = new CancelledOrders
+            {
+                OrderId = id,
+                CustomerId = order.CustomerId,  // Assuming order has CustomerId field
+                OrderDate = order.OrderDate,
+                CancelNote = cancelOrderDTO.CancelNote
+            };
+
+            await _context.CancelledOrders.InsertOneAsync(cancelledOrder);
+
+            // Delete the order after restoring quantities and saving the cancelled order details
             await _context.Orders.DeleteOneAsync(o => o.Id == id);
 
-            return Ok("Order deleted successfully");
+            return Ok("Order deleted and cancellation recorded successfully");
         }
+
 
 
         //put method to update order status to Delivered and all product listings to DeliveredStatus to true and ReadyStatus to true
@@ -327,6 +376,35 @@ namespace Ecommerce.Controllers
             await _context.Orders.ReplaceOneAsync(o => o.Id == id, order);
 
             return Ok("Order with " + id + " delivered successfully");
+        }
+
+        //Put method to set cancel_status true and order_status to Cancel Requested
+        [HttpPut("cancel/{id:length(24)}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> CancelOrder(string id)
+        {
+            // Fetch the order by its ID
+            var order = await _context.Orders.Find(o => o.Id == id).FirstOrDefaultAsync();
+            if (order == null)
+            {
+                return NotFound(); // Return 404 if the order is not found
+            }
+
+            // Fetch fresh product listings associated with this order
+            var orderItems = await _context.ProductListings
+                                           .Find(listing => order.OrderItems.Select(i => i.Id).Contains(listing.Id))
+                                           .ToListAsync();
+
+            // Update the CancelStatus of the order
+            order.EditableStatus = false;
+            order.CancelStatus = true;
+            order.OrderStatus = "Cancel Requested";
+
+            // Save the updated order
+            await _context.Orders.ReplaceOneAsync(o => o.Id == id, order);
+
+            return Ok("Order with " + id + " cancel requested successfully");
         }
 
     }
