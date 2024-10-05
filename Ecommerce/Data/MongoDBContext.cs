@@ -21,5 +21,7 @@ namespace Ecommerce.Data
         public IMongoCollection<Ranking> Ranks => _database.GetCollection<Ranking>("Ranks");
         public IMongoCollection<Review> Reviews => _database.GetCollection<Review>("Reviews");
         public IMongoCollection<CancelledOrders> CancelledOrders => _database.GetCollection<CancelledOrders>("CancelledOrders");
+        public IMongoCollection<NotificationLowStock> NotificationLowStock => _database.GetCollection<NotificationLowStock>("NotificationLowStock");
+        public IMongoCollection<NotificationOrderCancel> NotificationOrderCancel => _database.GetCollection<NotificationOrderCancel>("NotificationOrder");
     }
 }
