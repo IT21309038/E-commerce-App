@@ -296,13 +296,13 @@ namespace Ecommerce.Controllers
                                            .Find(listing => order.OrderItems.Select(i => i.Id).Contains(listing.Id))
                                            .ToListAsync();
 
-            //check CancelStatus of order is true or not
+            // Check CancelStatus of order
             if (order.CancelStatus != true)
             {
                 return BadRequest("User has not requested for a cancellation.");
             }
 
-
+            // Check if any product has ReadyStatus set to true
             if (orderItems.Any(item => item.ReadyStatus == true))
             {
                 return BadRequest("Cannot delete the order because one or more products have ReadyStatus set to true.");
@@ -334,12 +334,23 @@ namespace Ecommerce.Controllers
 
             await _context.CancelledOrders.InsertOneAsync(cancelledOrder);
 
+            // Create a new notification entry for the cancelled order
+            var notification = new NotificationOrderCancel
+            {
+                CreatedTime = DateTime.UtcNow,
+                OrderId = id,
+                UserId = order.CustomerId, // Assuming CustomerId refers to the user
+                Message = $"Order {id} has been cancelled.",
+                MarkRead = false
+            };
+
+            await _context.NotificationOrderCancel.InsertOneAsync(notification);
+
             // Delete the order after restoring quantities and saving the cancelled order details
             await _context.Orders.DeleteOneAsync(o => o.Id == id);
 
-            return Ok("Order deleted and cancellation recorded successfully");
+            return Ok("Order deleted, cancellation recorded, and notification created successfully.");
         }
-
 
 
         //put method to update order status to Delivered and all product listings to DeliveredStatus to true and ReadyStatus to true

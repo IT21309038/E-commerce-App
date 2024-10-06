@@ -20,48 +20,6 @@ namespace Ecommerce.Controllers
             _context = context;
         }
 
-        //Get all products
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductGetDTO>>> GetProducts()
-        {
-            var products = await _context.Products.Find(p => true).ToListAsync();
-            var productDTOs = new List<ProductGetDTO>();
-
-            foreach (var product in products)
-            {
-                // Fetch the category and ensure ActiveStatus == true
-                var category = await _context.Categories.Find(c => c.Id == product.CategoryId && c.ActiveStatus == true).FirstOrDefaultAsync();
-                var vendor = await _context.Users.Find(u => u.Id == product.VendorId).FirstOrDefaultAsync();
-
-                //Find the average rating of the vendor
-                var ranks = await _context.Ranks.Find(r => r.VendorId == product.VendorId).ToListAsync();
-                double totalRank = 0;
-                foreach (var rank in ranks)
-                {
-                    totalRank += rank.Rank;
-                }
-                double rating = ranks.Count == 0 ? 0 : totalRank / ranks.Count;
-
-                productDTOs.Add(
-                    new ProductGetDTO
-                    {
-                        Id = product.Id.ToString(),
-                        ProductName = product.ProductName,
-                        ProductDescription = product.ProductDescription,
-                        UnitPrice = product.UnitPrice,
-                        Quantity = product.Quantity,
-                        InitialQuantity = product.InitialQuantity,
-                        Image = product.Image,
-                        CategoryName = category?.CategoryName,
-                        VendorName = vendor?.Name,
-                        Rating = rating,
-                        VendorId = product.VendorId
-                    }
-                    );
-            }
-            return Ok(productDTOs);
-        }
-
         //Get all products search by product name and filter by category
         [HttpGet("search")]
         public async Task<ActionResult<IEnumerable<ProductGetDTO>>> GetProductsSearch([FromQuery] string? productName = null, [FromQuery] string? categoryId = null)
@@ -69,30 +27,24 @@ namespace Ecommerce.Controllers
             var filterBuilder = Builders<Product>.Filter;
             var filter = filterBuilder.Empty; // Start with an empty filter
 
-            // Apply category filter if categoryId is provided
             if (!string.IsNullOrEmpty(categoryId))
             {
-                // Convert categoryId to ObjectId since it's stored as an ObjectId in the database
                 filter = filter & filterBuilder.Eq("category_id", ObjectId.Parse(categoryId));
             }
 
-            // Apply product name search filter if productName is provided
             if (!string.IsNullOrEmpty(productName))
             {
                 filter = filter & filterBuilder.Regex("product_name", new BsonRegularExpression(productName, "i"));
             }
 
-            // Fetch the filtered products from the database
             var products = await _context.Products.Find(filter).ToListAsync();
             var productDTOs = new List<ProductGetDTO>();
 
             foreach (var product in products)
             {
-                // Fetch the category and ensure ActiveStatus == true
                 var category = await _context.Categories.Find(c => c.Id == product.CategoryId && c.ActiveStatus == true).FirstOrDefaultAsync();
                 var vendor = await _context.Users.Find(u => u.Id == product.VendorId).FirstOrDefaultAsync();
 
-                // Find the average rating of the vendor
                 var ranks = await _context.Ranks.Find(r => r.VendorId == product.VendorId).ToListAsync();
                 double totalRank = 0;
                 foreach (var rank in ranks)
@@ -100,6 +52,19 @@ namespace Ecommerce.Controllers
                     totalRank += rank.Rank;
                 }
                 double rating = ranks.Count == 0 ? 0 : totalRank / ranks.Count;
+
+                bool lowStock = product.Quantity < Math.Ceiling(0.2 * product.InitialQuantity);
+                if (lowStock)
+                {
+                    var notification = new NotificationLowStock
+                    {
+                        CreatedTime = DateTime.UtcNow,
+                        VendorId = product.VendorId,
+                        Message = $"Product {product.ProductName} is low on stock.",
+                        MarkRead = false
+                    };
+                    await _context.NotificationLowStock.InsertOneAsync(notification);
+                }
 
                 productDTOs.Add(
                     new ProductGetDTO
@@ -112,18 +77,16 @@ namespace Ecommerce.Controllers
                         InitialQuantity = product.InitialQuantity,
                         Image = product.Image,
                         CategoryName = category?.CategoryName,
+                        CategoryId = product.CategoryId,
                         VendorName = vendor?.Name,
                         Rating = rating,
-                        VendorId = product.VendorId
+                        VendorId = product.VendorId,
+                        LowStock = lowStock
                     }
                 );
             }
             return Ok(productDTOs);
         }
-
-
-
-
 
         // GET: api/Product/{id}
         [HttpGet("{id:length(24)}", Name = "GetProduct")]
@@ -136,11 +99,9 @@ namespace Ecommerce.Controllers
                 return NotFound();
             }
 
-            // Fetch related category and vendor information
             var category = await _context.Categories.Find(c => c.Id == product.CategoryId).FirstOrDefaultAsync();
             var vendor = await _context.Users.Find(u => u.Id == product.VendorId).FirstOrDefaultAsync();
 
-            //Find the average rating of the vendor
             var ranks = await _context.Ranks.Find(r => r.VendorId == product.VendorId).ToListAsync();
             double totalRank = 0;
             foreach (var rank in ranks)
@@ -149,8 +110,19 @@ namespace Ecommerce.Controllers
             }
             double rating = ranks.Count == 0 ? 0 : totalRank / ranks.Count;
 
+            bool lowStock = product.Quantity < Math.Ceiling(0.2 * product.InitialQuantity);
+            if (lowStock)
+            {
+                var notification = new NotificationLowStock
+                {
+                    CreatedTime = DateTime.UtcNow,
+                    VendorId = product.VendorId,
+                    Message = $"Product {product.ProductName} is low on stock.",
+                    MarkRead = false
+                };
+                await _context.NotificationLowStock.InsertOneAsync(notification);
+            }
 
-            // Construct the ProductGetDTO to return
             var productDTO = new ProductGetDTO
             {
                 Id = product.Id.ToString(),
@@ -160,18 +132,17 @@ namespace Ecommerce.Controllers
                 Quantity = product.Quantity,
                 InitialQuantity = product.InitialQuantity,
                 Image = product.Image,
-                CategoryName = category?.CategoryName,  // Null check in case category is missing
-                VendorName = vendor?.Name,               // Null check in case vendor is missing
+                CategoryName = category?.CategoryName,
+                CategoryId = product.CategoryId,
+                VendorName = vendor?.Name,
                 Rating = rating,
                 VendorId = product.VendorId,
-
-                // Low stock is defined as less than 20% of the initial quantity 
-                //if 20% is not a round number, we can use Math.Ceiling to round up
-                LowStock = product.Quantity < Math.Ceiling(0.2 * product.InitialQuantity)
+                LowStock = lowStock
             };
 
             return productDTO;
         }
+
 
         //Get product by VendorId
         [HttpGet("vendor/{id:length(24)}")]
@@ -182,11 +153,9 @@ namespace Ecommerce.Controllers
 
             foreach (var product in products)
             {
-                // Fetch the category and ensure ActiveStatus == true
                 var category = await _context.Categories.Find(c => c.Id == product.CategoryId && c.ActiveStatus == true).FirstOrDefaultAsync();
                 var vendor = await _context.Users.Find(u => u.Id == product.VendorId).FirstOrDefaultAsync();
 
-                //Find the average rating of the vendor
                 var ranks = await _context.Ranks.Find(r => r.VendorId == product.VendorId).ToListAsync();
                 double totalRank = 0;
                 foreach (var rank in ranks)
@@ -195,52 +164,18 @@ namespace Ecommerce.Controllers
                 }
                 double rating = ranks.Count == 0 ? 0 : totalRank / ranks.Count;
 
-                productDTOs.Add(
-                    new ProductGetDTO
-                    {
-                        Id = product.Id.ToString(),
-                        ProductName = product.ProductName,
-                        ProductDescription = product.ProductDescription,
-                        UnitPrice = product.UnitPrice,
-                        Quantity = product.Quantity,
-                        InitialQuantity = product.InitialQuantity,
-                        Image = product.Image,
-                        CategoryName = category.CategoryName,
-                        VendorName = vendor?.Name,
-                        Rating = rating,
-                        VendorId = product.VendorId,
-                        LowStock = product.Quantity < Math.Ceiling(0.2 * product.InitialQuantity)
-                    }
-                );
-            }
-            return Ok( productDTOs );
-        }
-
-        //Get product by VendorId and product is low stock
-        [HttpGet("lowStock/vendor/{id:length(24)}")]
-        public async Task<ActionResult<IEnumerable<ProductGetDTO>>> GetProductByVendorLowStock(string id)
-        {
-            var products = await _context.Products.Find(p => p.VendorId == id).ToListAsync();
-            var productDTOs = new List<ProductGetDTO>();
-
-            foreach (var product in products)
-            {
-                // Calculate LowStock status
                 bool lowStock = product.Quantity < Math.Ceiling(0.2 * product.InitialQuantity);
-                if (!lowStock) continue; // Skip products that are not low stock
-
-                // Fetch the category and ensure ActiveStatus == true
-                var category = await _context.Categories.Find(c => c.Id == product.CategoryId && c.ActiveStatus == true).FirstOrDefaultAsync();
-                var vendor = await _context.Users.Find(u => u.Id == product.VendorId).FirstOrDefaultAsync();
-
-                //Find the average rating of the vendor
-                var ranks = await _context.Ranks.Find(r => r.VendorId == product.VendorId).ToListAsync();
-                double totalRank = 0;
-                foreach (var rank in ranks)
+                if (lowStock)
                 {
-                    totalRank += rank.Rank;
+                    var notification = new NotificationLowStock
+                    {
+                        CreatedTime = DateTime.UtcNow,
+                        VendorId = product.VendorId,
+                        Message = $"Product {product.ProductName} is low on stock.",
+                        MarkRead = false
+                    };
+                    await _context.NotificationLowStock.InsertOneAsync(notification);
                 }
-                double rating = ranks.Count == 0 ? 0 : totalRank / ranks.Count;
 
                 productDTOs.Add(
                     new ProductGetDTO
@@ -253,6 +188,7 @@ namespace Ecommerce.Controllers
                         InitialQuantity = product.InitialQuantity,
                         Image = product.Image,
                         CategoryName = category?.CategoryName,
+                        CategoryId = product.CategoryId,
                         VendorName = vendor?.Name,
                         Rating = rating,
                         VendorId = product.VendorId,
