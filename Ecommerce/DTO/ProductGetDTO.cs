@@ -10,6 +10,7 @@
         public int InitialQuantity { get; set; }
         public string Image { get; set; }
         public string CategoryName { get; set; }
+        public string CategoryId { get; set; }
         public string VendorName { get; set; }
         public string VendorId { get; set; }
         public double Rating { get; set; }
