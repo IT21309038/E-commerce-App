@@ -36,6 +36,20 @@ namespace Ecommerce.Controllers
             return notification;
         }
 
+        //Get all notifications by user id
+        [HttpGet("all/{id:length(24)}")]
+        public async Task<ActionResult<List<NotificationOrderCancel>>> GetAllNotifications(string id)
+        {
+            var notifications = await _context.NotificationOrderCancel.Find(n => n.UserId == id).ToListAsync();
+
+            if (notifications == null)
+            {
+                return NotFound();
+            }
+
+            return notifications;
+        }
+
         //Mark notification as read using notification id
         [HttpPut("{id:length(24)}")]
         public async Task<IActionResult> MarkAsRead(string id, NotificationOrderCancel notification)
