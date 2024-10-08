@@ -23,10 +23,13 @@ namespace Ecommerce.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Order>>> Get()
+        public async Task<ActionResult<IEnumerable<OrderGetDTO>>> Get()
         {
             // Fetch all orders
             var orders = await _context.Orders.Find(order => true).ToListAsync();
+
+            // Initialize a list to store the DTOs
+            var orderDtos = new List<OrderGetDTO>();
 
             // Fetch and update the order items with fresh product listings
             foreach (var order in orders)
@@ -34,6 +37,7 @@ namespace Ecommerce.Controllers
                 var updatedOrderItems = await _context.ProductListings
                                                       .Find(listing => order.OrderItems.Select(i => i.Id).Contains(listing.Id))
                                                       .ToListAsync();
+
                 order.OrderItems = updatedOrderItems; // Update order with fresh product listings
 
                 // Update OrderStatus and EditableStatus based on DeliveredStatus and ActiveStatus
@@ -41,13 +45,43 @@ namespace Ecommerce.Controllers
 
                 // Save changes to the order
                 await _context.Orders.ReplaceOneAsync(o => o.Id == order.Id, order);
+
+                // Map the order and order items to the DTO
+                var orderDto = new OrderGetDTO
+                {
+                    Id = order.Id,
+                    OrderDate = order.OrderDate,
+                    OrderStatus = order.OrderStatus,
+                    EditableStatus = order.EditableStatus,
+                    CancelStatus = order.CancelStatus,
+                    TotalAmount = order.TotalAmount,
+                    CustomerId = order.CustomerId,
+                    OrderItems = updatedOrderItems.Select(item => new OrderItemDTO
+                    {
+                        Id = item.Id,
+                        ProductId = item.ProductId,
+                        //product name should be fetched from product id and set to ProductName
+                        ProductName = _context.Products.Find(p => p.Id == item.ProductId).FirstOrDefault().ProductName,
+                        OrderId = item.OrderId,
+                        UserId = item.UserId,
+                        Quantity = item.Quantity,
+                        Price = item.Price,
+                        ReadyStatus = item.ReadyStatus,
+                        DeliveredStatus = item.DeliveredStatus
+                    }).ToList()
+                };
+
+                // Add the mapped DTO to the list
+                orderDtos.Add(orderDto);
             }
 
-            return Ok(orders);
+            // Return the list of DTOs
+            return Ok(orderDtos);
         }
 
+
         [HttpGet("{id:length(24)}", Name = "GetOrder")]
-        public async Task<ActionResult<Order>> Get(string id)
+        public async Task<ActionResult<OrderGetDTO>> Get(string id)
         {
             // Fetch the order by ID
             var order = await _context.Orders.Find(o => o.Id == id).FirstOrDefaultAsync();
@@ -69,15 +103,43 @@ namespace Ecommerce.Controllers
             // Save changes to the order
             await _context.Orders.ReplaceOneAsync(o => o.Id == order.Id, order);
 
-            return Ok(order);
+            // Map to OrderGetDTO
+            var orderDto = new OrderGetDTO
+            {
+                Id = order.Id,
+                OrderDate = order.OrderDate,
+                OrderStatus = order.OrderStatus,
+                EditableStatus = order.EditableStatus,
+                CancelStatus = order.CancelStatus,
+                TotalAmount = order.TotalAmount,
+                CustomerId = order.CustomerId,
+                OrderItems = updatedOrderItems.Select(item => new OrderItemDTO
+                {
+                    Id = item.Id,
+                    ProductId = item.ProductId,
+                    ProductName = _context.Products.Find(p => p.Id == item.ProductId).FirstOrDefault().ProductName,
+                    OrderId = item.OrderId,
+                    UserId = item.UserId,
+                    Quantity = item.Quantity,
+                    Price = item.Price,
+                    ReadyStatus = item.ReadyStatus,
+                    DeliveredStatus = item.DeliveredStatus
+                }).ToList()
+            };
+
+            return Ok(orderDto);
         }
 
+
         [HttpGet("customer/{customerId}")]
-        public async Task<ActionResult<IEnumerable<Order>>> GetByCustomerId(string customerId)
+        public async Task<ActionResult<IEnumerable<OrderGetDTO>>> GetByCustomerId(string customerId)
         {
             // Fetch all orders by CustomerId
             var orders = await _context.Orders.Find(order => order.CustomerId == customerId).ToListAsync();
 
+            // Initialize a list to store the DTOs
+            var orderDtos = new List<OrderGetDTO>();
+
             // Fetch and update the order items with fresh product listings
             foreach (var order in orders)
             {
@@ -91,18 +153,47 @@ namespace Ecommerce.Controllers
 
                 // Save changes to the order
                 await _context.Orders.ReplaceOneAsync(o => o.Id == order.Id, order);
+
+                // Map to OrderGetDTO
+                var orderDto = new OrderGetDTO
+                {
+                    Id = order.Id,
+                    OrderDate = order.OrderDate,
+                    OrderStatus = order.OrderStatus,
+                    EditableStatus = order.EditableStatus,
+                    CancelStatus = order.CancelStatus,
+                    TotalAmount = order.TotalAmount,
+                    CustomerId = order.CustomerId,
+                    OrderItems = updatedOrderItems.Select(item => new OrderItemDTO
+                    {
+                        Id = item.Id,
+                        ProductId = item.ProductId,
+                        ProductName = _context.Products.Find(p => p.Id == item.ProductId).FirstOrDefault().ProductName,
+                        OrderId = item.OrderId,
+                        UserId = item.UserId,
+                        Quantity = item.Quantity,
+                        Price = item.Price,
+                        ReadyStatus = item.ReadyStatus,
+                        DeliveredStatus = item.DeliveredStatus
+                    }).ToList()
+                };
+
+                orderDtos.Add(orderDto);
             }
 
-            return Ok(orders);
+            return Ok(orderDtos);
         }
 
-        //Get all orders with CancelStatus true
+
         [HttpGet("cancel")]
-        public async Task<ActionResult<IEnumerable<Order>>> GetCancelOrders()
+        public async Task<ActionResult<IEnumerable<OrderGetDTO>>> GetCancelOrders()
         {
             // Fetch all orders with CancelStatus true
             var orders = await _context.Orders.Find(order => order.CancelStatus == true).ToListAsync();
 
+            // Initialize a list to store the DTOs
+            var orderDtos = new List<OrderGetDTO>();
+
             // Fetch and update the order items with fresh product listings
             foreach (var order in orders)
             {
@@ -116,10 +207,91 @@ namespace Ecommerce.Controllers
 
                 // Save changes to the order
                 await _context.Orders.ReplaceOneAsync(o => o.Id == order.Id, order);
+
+                // Map to OrderGetDTO
+                var orderDto = new OrderGetDTO
+                {
+                    Id = order.Id,
+                    OrderDate = order.OrderDate,
+                    OrderStatus = order.OrderStatus,
+                    EditableStatus = order.EditableStatus,
+                    CancelStatus = order.CancelStatus,
+                    TotalAmount = order.TotalAmount,
+                    CustomerId = order.CustomerId,
+                    OrderItems = updatedOrderItems.Select(item => new OrderItemDTO
+                    {
+                        Id = item.Id,
+                        ProductId = item.ProductId,
+                        ProductName = _context.Products.Find(p => p.Id == item.ProductId).FirstOrDefault().ProductName,
+                        OrderId = item.OrderId,
+                        UserId = item.UserId,
+                        Quantity = item.Quantity,
+                        Price = item.Price,
+                        ReadyStatus = item.ReadyStatus,
+                        DeliveredStatus = item.DeliveredStatus
+                    }).ToList()
+                };
+
+                orderDtos.Add(orderDto);
             }
 
-            return Ok(orders);
+            return Ok(orderDtos);
         }
+
+        //Get all orders with OrderStatus which status != Delivered
+        [HttpGet("processing")]
+        public async Task<ActionResult<IEnumerable<OrderGetDTO>>> GetProcessingOrders()
+        {
+            // Fetch all orders with OrderStatus != Delivered
+            var orders = await _context.Orders.Find(order => order.OrderStatus != "Delivered").ToListAsync();
+
+            // Initialize a list to store the DTOs
+            var orderDtos = new List<OrderGetDTO>();
+
+            // Fetch and update the order items with fresh product listings
+            foreach (var order in orders)
+            {
+                var updatedOrderItems = await _context.ProductListings
+                                                      .Find(listing => order.OrderItems.Select(i => i.Id).Contains(listing.Id))
+                                                      .ToListAsync();
+                order.OrderItems = updatedOrderItems; // Update order with fresh product listings
+
+                // Update OrderStatus and EditableStatus based on DeliveredStatus and ActiveStatus
+                UpdateOrderStatus(order, updatedOrderItems);
+
+                // Save changes to the order
+                await _context.Orders.ReplaceOneAsync(o => o.Id == order.Id, order);
+
+                // Map to OrderGetDTO
+                var orderDto = new OrderGetDTO
+                {
+                    Id = order.Id,
+                    OrderDate = order.OrderDate,
+                    OrderStatus = order.OrderStatus,
+                    EditableStatus = order.EditableStatus,
+                    CancelStatus = order.CancelStatus,
+                    TotalAmount = order.TotalAmount,
+                    CustomerId = order.CustomerId,
+                    OrderItems = updatedOrderItems.Select(item => new OrderItemDTO
+                    {
+                        Id = item.Id,
+                        ProductId = item.ProductId,
+                        ProductName = _context.Products.Find(p => p.Id == item.ProductId).FirstOrDefault().ProductName,
+                        OrderId = item.OrderId,
+                        UserId = item.UserId,
+                        Quantity = item.Quantity,
+                        Price = item.Price,
+                        ReadyStatus = item.ReadyStatus,
+                        DeliveredStatus = item.DeliveredStatus
+                    }).ToList()
+                };
+
+                orderDtos.Add(orderDto);
+            }
+
+            return Ok(orderDtos);
+        }
+
 
 
         private void UpdateOrderStatus(Order order, List<ProductListing> orderItems)
